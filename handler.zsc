@@ -14,31 +14,31 @@ put a horse here=
 
 class KillFeed_Info
 {
-    //Actor inflictor, victim;
-    //Weapon weapon;
+	//Actor inflictor, victim;
+	//Weapon weapon;
 	String inflictor, victim, damage_type; //fallbacks or replace for safer use, add later... actually maybe revert
 	TranslationID inflictor_translation, victim_translation;
 	Color inflictor_color, victim_color;
 	TextureID weapon_icon, projectile_icon;
 
 	//Actor projectile;
-    int lifetime;
+	int lifetime;
 	bool critical, suicide, air, player_inflictor, player_victim;
 
-    bool Tick()
-    {
-        lifetime++;
-        if (lifetime > 350)
-            return false;
+	bool Tick()
+	{
+		lifetime++;
+		if (lifetime > 350)
+			return false;
 
-        return true;
-    }
+		return true;
+	}
 }
 
 class KillFeed_Handler : EventHandler
 {
 	const FEED_LIMIT = 32;
-    Array<KillFeed_Info> feeds;
+	Array<KillFeed_Info> feeds;
 
 	TextureID GetInventoryIcon(Inventory item)
 	{
@@ -95,8 +95,8 @@ class KillFeed_Handler : EventHandler
 			return TexMan.CheckForTexture("TNT1A0");
 	}
 
-    override void WorldThingDied(WorldEvent e)
-    {
+	override void WorldThingDied(WorldEvent e)
+	{
 		let vict = e.thing;
 
 		if (cv_killfeed_players_only && !(vict is 'PlayerPawn'))
@@ -112,7 +112,7 @@ class KillFeed_Handler : EventHandler
 		if(feeds.Size() >= FEED_LIMIT)
 			return;
 
-        KillFeed_Info k = new('KillFeed_Info');
+		KillFeed_Info k = new('KillFeed_Info');
 
 		k.inflictor = inflict.GetCharacterName();
 		if (inflict.player)
@@ -122,10 +122,10 @@ class KillFeed_Handler : EventHandler
 			k.inflictor = inflict.player.GetUserName();
 			let ii = GetInventoryIcon(inflict.player.ReadyWeapon);
 			if (ii)
-            	k.weapon_icon = GetInventoryIcon(inflict.player.ReadyWeapon);
+				k.weapon_icon = GetInventoryIcon(inflict.player.ReadyWeapon);
 		}
 
-       	k.victim = vict.GetCharacterName();
+	   	k.victim = vict.GetCharacterName();
 		if (vict.player)
 		{
 			k.player_victim = true;
@@ -139,10 +139,10 @@ class KillFeed_Handler : EventHandler
 		k.suicide = vict == inflict;
 		k.air = !(inflict.vel.z == 0 || abs(inflict.pos.z - inflict.GetZAt()) <= 4);
 
-        feeds.push(k);
-    }
+		feeds.push(k);
+	}
 
-    ui int GetUIScale(int altval)
+	ui int GetUIScale(int altval)
 	{
 		int scaleval;
 
@@ -167,30 +167,30 @@ class KillFeed_Handler : EventHandler
 		return max(1, min(scaleval, smax));
 	}
 
-    override void WorldTick()
-    {
-        for(int i = 0; i < feeds.Size(); ++i)
-        {
-            if (i < 0 || i > feeds.Size())
-			    return;
+	override void WorldTick()
+	{
+		for(int i = 0; i < feeds.Size(); ++i)
+		{
+			if (i < 0 || i > feeds.Size())
+				return;
 
-            let f = feeds[i];
-            if (!f.Tick())
-            {
-                feeds[i].Destroy();
-                feeds.Delete(i);
-            }
-        }
-    }
+			let f = feeds[i];
+			if (!f.Tick())
+			{
+				feeds[i].Destroy();
+				feeds.Delete(i);
+			}
+		}
+	}
 
 	//Transient ui TextureID tag_background;
-    Transient ui TextureID crit_background;
+	Transient ui TextureID crit_background;
 	Transient ui TextureID icon_suicide;
 	Transient ui TextureID background;
 	Transient ui TextureID icon_air;
 
-    override void RenderOverlay(RenderEvent e)
-    {
+	override void RenderOverlay(RenderEvent e)
+	{
 		//tag_background = TexMan.CheckForTexture("graphics/tag_back.png");
 		crit_background = TexMan.CheckForTexture("graphics/tag_crit.png");
 		icon_suicide = TexMan.CheckForTexture("graphics/suicide.png");
@@ -201,31 +201,31 @@ class KillFeed_Handler : EventHandler
 		let scale = GetUIScale(hud_scale);
 		let fontheight = ConFont.GetHeight();
 
-        for(int i = 0; i < feeds.Size(); ++i)
-        {
-            let f = feeds[i];
-            if (!f)
-                return;
+		for(int i = 0; i < feeds.Size(); ++i)
+		{
+			let f = feeds[i];
+			if (!f)
+				return;
 
-            string inflictor = f.inflictor;
-            string victim = f.victim;
+			string inflictor = f.inflictor;
+			string victim = f.victim;
 
-            let vw = ConFont.StringWidth(victim);
-            let vertoffset = 4;
+			let vw = ConFont.StringWidth(victim);
+			let vertoffset = 4;
 
 			let vertseparate = (vertoffset + fontheight) * i;
 
 			let icon_weapon = f.weapon_icon.isValid() ? f.weapon_icon : f.projectile_icon;
 			let icon_weapon_size = TexMan.GetScaledSize(icon_weapon);
-            let icon_weapon_realheight = TexMan.CheckRealHeight(icon_weapon);
+			let icon_weapon_realheight = TexMan.CheckRealHeight(icon_weapon);
 
 			int horizontal_pos;
 			/*
 			if (players[consoleplayer].mo.player.GetUserName() == (inflictor || victim))
 				Screen.DrawTexture(tag_background, false, Screen.GetWidth() - (vw + icon_weapon_size.x * 0.5 * scale, vertseparate * scale,
-                        DTA_KeepRatio, true,
-                        DTA_ScaleX, vw * scale,
-                        DTA_ScaleY, scale);
+						DTA_KeepRatio, true,
+						DTA_ScaleX, vw * scale,
+						DTA_ScaleY, scale);
 			*/
 			if (!f.suicide && victim)
 			{
@@ -255,9 +255,9 @@ class KillFeed_Handler : EventHandler
 			horizontal_pos += icon_weapon_size.x * 0.5;
 			if (f.critical)
 				Screen.DrawTexture(crit_background, false, Screen.GetWidth() - (horizontal_pos + icon_weapon_size.x * 0.5) * scale, vertseparate * scale,
-                        DTA_KeepRatio, true,
-                        DTA_ScaleX, (icon_weapon_size.x / 10.0) * scale,
-                        DTA_ScaleY, scale);
+						DTA_KeepRatio, true,
+						DTA_ScaleX, (icon_weapon_size.x / 10.0) * scale,
+						DTA_ScaleY, scale);
 
 			if (icon_weapon)
 			{
@@ -307,6 +307,6 @@ class KillFeed_Handler : EventHandler
 			}
 
 			horizontal_pos = 0;
-        }
-    }
+		}
+	}
 }
