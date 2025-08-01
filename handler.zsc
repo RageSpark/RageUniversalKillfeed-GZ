@@ -131,7 +131,7 @@ class KillFeed_Handler : EventHandler
 		k.projectile_icon = GetActorIcon(e.inflictor);
 
 		k.critical = vict.health <= vict.GetGibHealth();
-		k.suicide = k.inflictor == k.victim;
+		k.suicide = vict == inflict;
 		k.air = !(inflict.vel.z == 0 || abs(inflict.pos.z - inflict.GetZAt()) <= 4);
 
         feeds.push(k);
@@ -178,7 +178,7 @@ class KillFeed_Handler : EventHandler
         }
     }
 
-	Transient ui TextureID tag_background;
+	//Transient ui TextureID tag_background;
     Transient ui TextureID crit_background;
 	Transient ui TextureID icon_suicide;
 	Transient ui TextureID background;
@@ -186,7 +186,7 @@ class KillFeed_Handler : EventHandler
 
     override void RenderOverlay(RenderEvent e)
     {
-		tag_background = TexMan.CheckForTexture("graphics/tag_back.png");
+		//tag_background = TexMan.CheckForTexture("graphics/tag_back.png");
 		crit_background = TexMan.CheckForTexture("graphics/tag_crit.png");
 		icon_suicide = TexMan.CheckForTexture("graphics/suicide.png");
 		background = TexMan.CheckForTexture("graphics/background.png");
