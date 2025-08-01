@@ -99,7 +99,7 @@ class KillFeed_Handler : EventHandler
 	{
 		let vict = e.thing;
 
-		if (cv_killfeed_players_only && !(vict is 'PlayerPawn'))
+		if (killfeed_sv_player_only && !(vict is 'PlayerPawn'))
 			return;
 
 		let inflict = vict.target;
@@ -120,9 +120,7 @@ class KillFeed_Handler : EventHandler
 			k.player_inflictor = true;
 			k.inflictor_color = inflict.player.GetDisplayColor();
 			k.inflictor = inflict.player.GetUserName();
-			let ii = GetInventoryIcon(inflict.player.ReadyWeapon);
-			if (ii)
-				k.weapon_icon = GetInventoryIcon(inflict.player.ReadyWeapon);
+			k.weapon_icon = GetInventoryIcon(inflict.player.ReadyWeapon);
 		}
 
 	   	k.victim = vict.GetCharacterName();
@@ -265,7 +263,8 @@ class KillFeed_Handler : EventHandler
 						DTA_KeepRatio, true,
 						DTA_ScaleX, scale,
 						DTA_ScaleY, scale,
-						DTA_CenterOffset, true);
+						DTA_CenterOffset, true,
+						DTA_FillColor, CVar.GetCVar('killfeed_cv_simple_icon', players[consoleplayer]).GetBool() ? Color("white") : Color("") );
 
 				if (f.air)
 					Screen.DrawTexture(icon_air, true, Screen.GetWidth() - (horizontal_pos + icon_weapon_size.x * 0.5) * scale, vertseparate * scale,
