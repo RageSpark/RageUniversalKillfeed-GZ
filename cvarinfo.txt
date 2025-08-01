@@ -1,0 +1,1 @@
+server bool cv_killfeed_players_only = false;
