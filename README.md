@@ -1,4 +1,4 @@
-# RageUniversalKillfeed GZ
+# Rage Spark's Universal Killfeed
 
 A universal killfeed for GZDoom 4.15+
 
@@ -9,4 +9,5 @@ Features:
 - Self kill indicator;
 - Filter for only Player victims.
 
-Credits are appreciated!
+Issues reports or suggestions are appreciated
+Credits are appreciated, too!
