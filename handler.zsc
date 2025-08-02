@@ -209,7 +209,7 @@ class KillFeed_Handler : EventHandler
 			string victim = f.victim;
 
 			let vw = ConFont.StringWidth(victim);
-			let vertoffset = 4;
+			let vertoffset = CVar.GetCVar('killfeed_cv_line_height', players[consoleplayer]).GetInt();
 
 			let vertseparate = (vertoffset + fontheight) * i;
 
@@ -258,21 +258,18 @@ class KillFeed_Handler : EventHandler
 						DTA_ScaleY, scale);
 
 			if (icon_weapon)
-			{
-				Screen.DrawTexture(icon_weapon, true, Screen.GetWidth() - horizontal_pos * scale, (vertseparate + icon_weapon_size.y * 0.5) * scale,
+				Screen.DrawTexture(icon_weapon, true, Screen.GetWidth() - horizontal_pos * scale, (vertseparate + icon_weapon_realheight) * scale,
 						DTA_KeepRatio, true,
 						DTA_ScaleX, scale,
 						DTA_ScaleY, scale,
-						DTA_CenterOffset, true,
+						DTA_CenterBottomOffset, true,
 						DTA_FillColor, CVar.GetCVar('killfeed_cv_simple_icon', players[consoleplayer]).GetBool() ? Color("white") : Color("") );
 
-				if (f.air)
-					Screen.DrawTexture(icon_air, true, Screen.GetWidth() - (horizontal_pos + icon_weapon_size.x * 0.5) * scale, vertseparate * scale,
-						DTA_KeepRatio, true,
-						DTA_ScaleX, scale,
-						DTA_ScaleY, scale);
-			}
-
+			if (f.air)
+				Screen.DrawTexture(icon_air, true, Screen.GetWidth() - (horizontal_pos + icon_weapon_size.x * 0.5) * scale, vertseparate * scale,
+					DTA_KeepRatio, true,
+					DTA_ScaleX, scale,
+					DTA_ScaleY, scale);
 
 			//Inflictor
 			if (inflictor)
