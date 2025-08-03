@@ -182,18 +182,15 @@ class KillFeed_Handler : EventHandler
 	}
 
 	//Transient ui TextureID tag_background;
-	Transient ui TextureID crit_background;
-	Transient ui TextureID icon_suicide;
-	Transient ui TextureID background;
-	Transient ui TextureID icon_air;
+	Transient ui TextureID crit_background, background, icon_suicide, icon_air;
 
 	override void RenderOverlay(RenderEvent e)
 	{
 		//tag_background = TexMan.CheckForTexture("graphics/tag_back.png");
 		crit_background = TexMan.CheckForTexture("graphics/tag_crit.png");
-		icon_suicide = TexMan.CheckForTexture("graphics/suicide.png");
+		icon_suicide = TexMan.CheckForTexture("graphics/feed_suicide.png");
 		background = TexMan.CheckForTexture("graphics/background.png");
-		icon_air = TexMan.CheckForTexture("graphics/air.png");
+		icon_air = TexMan.CheckForTexture("graphics/feed_air.png");
 
 		let crit_size = TexMan.GetScaledSize(crit_background);
 		let scale = GetUIScale(hud_scale);
@@ -213,7 +210,7 @@ class KillFeed_Handler : EventHandler
 
 			let vertseparate = (vertoffset + fontheight) * i;
 
-			let icon_weapon = f.weapon_icon.isValid() ? f.weapon_icon : f.projectile_icon;
+			let icon_weapon = f.weapon_icon.isValid() && !CVar.GetCVar('killfeed_cv_prefer_inflictor', players[consoleplayer]).GetBool() ? f.weapon_icon : f.projectile_icon;
 			let icon_weapon_size = TexMan.GetScaledSize(icon_weapon);
 			let icon_weapon_realheight = TexMan.CheckRealHeight(icon_weapon);
 

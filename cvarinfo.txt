@@ -1,3 +1,5 @@
 server bool killfeed_sv_player_only = false;
+nosave bool killfeed_cv_prefer_inflictor = false;
+nosave bool killfeed_cv_show_weapon_n_inflictor = false;
 nosave bool killfeed_cv_simple_icon = false;
 nosave int killfeed_cv_line_height = 8;
